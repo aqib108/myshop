@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <style>
+  .form-control{
+    color: white !important;
+  }
+  </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -102,6 +107,16 @@
                 <i class="mdi mdi-speedometer"></i>
               </span>
               <span class="menu-title">Category</span>
+          </router-link>
+            
+          </li> 
+           <li class="nav-item menu-items">
+          
+          <router-link class="nav-link" to="/product">
+           <span class="menu-icon">
+                <i class="mdi mdi-speedometer"></i>
+              </span>
+              <span class="menu-title">Product</span>
           </router-link>
             
           </li> 

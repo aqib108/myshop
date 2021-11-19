@@ -13,6 +13,7 @@
                             <label class="col-sm-3 col-form-label">Category Name</label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control tex-white" v-model="form.name" />
+                              <small class="text-danger" v-if="errors.name" >{{ errors.name[0] }}</small>
                             </div>
                           </div>
                         </div>
@@ -43,10 +44,10 @@
                      <input type="text" v-model="searchTerm" placeholder="Search Category" />
                     </div>
                    <div class="col-md-6">
-                   <select class="bg-dark" style="float: right">
-                   <option>5</option>
-                     <option>50</option>
-                       <option>100</option>
+                   <select  @change="getcategories($event)" class="bg-dark" style="float: right">
+                   <option value="3">3</option>
+                     <option value="5">5</option>
+                       <option value="7">7</option>
                    </select>
                      
                     </div>
@@ -107,7 +108,7 @@ data(){
         },
         categories:[],
         errors:{},
-        i:0,
+        
         searchTerm:"",
         info:null
     }
@@ -120,10 +121,6 @@ filtersearch()
 return this.categories.filter(category =>{
   return category.name.toLowerCase().match(this.searchTerm.toLowerCase())
 })
-     },
-     incrementvalue()
-     {
-return this.i=this.i+1;
      }
   },
 methods:{
@@ -143,7 +140,7 @@ methods:{
          
         })
         .catch(error=>{
-        //  this.errors = error.response.errors;
+          this.errors = error.response.data.errors;
          Toast.fire({
                  icon: 'error',
                  title: 'Error Please Try Again'
@@ -161,6 +158,11 @@ methods:{
     catch(error=>{
         console.log(error);
     });
+      },
+      getcategories(e)
+      {
+        let limit = e.target.value;
+        this.categories = this.categories.slice(0,limit);
       }
 
   }
