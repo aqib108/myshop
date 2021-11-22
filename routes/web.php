@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('Userside');
-// });
+Route::get('/', function () {
+    return view('Userside');
+});
 
 Auth::routes();
-Route::middleware(['web'])->group(function () {
-  Route::get('/{vue_capture?}',function(){
+Route::middleware(['web','auth'])->group(function () {
+  Route::get('/home{vue_capture?}',function(){
     return view('admin_home');
   })->where('vue_capture','[\/\w\.-]*');
 });

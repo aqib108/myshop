@@ -2,6 +2,7 @@
     <div>
       
  <div class="col-12 grid-margin">
+    <router-link to="/view-Product"  class="mb-3 btn btn-outline-primary">View Product</router-link>
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Add Product</h4>
@@ -13,6 +14,7 @@
                             <label class="col-sm-3 col-form-label">Product Title</label>
                             <div class="col-sm-9">
                               <input type="text" class="form-control" v-model="form.title" />
+                             <small class="text-danger" v-if="errors.title" >{{ errors.title[0] }}</small>
                             </div>
                           </div>
                         </div>
@@ -24,6 +26,7 @@
                         <option v-for="category in categories" :value="category.id" :key="category.id">{{category.name}}</option>
                                 
                               </select>
+                                <small class="text-danger" v-if="errors.category_id" >{{ errors.category_id[0] }}</small>
                             </div>
                           </div>
                         </div>
@@ -34,6 +37,7 @@
                             <label class="col-sm-3 col-form-label">Price</label>
                             <div class="col-sm-9">
                               <input class="form-control" type="number" v-model="form.price" />
+                                <small class="text-danger" v-if="errors.price" >{{ errors.price[0] }}</small>
                             </div>
                           </div>
                         </div>
@@ -42,6 +46,7 @@
                             <label class="col-sm-3 col-form-label">Size</label>
                             <div class="col-sm-9">
                               <input class="form-control" type="number" v-model="form.size" />
+                              <small class="text-danger" v-if="errors.size" >{{ errors.size[0] }}</small>
                             </div>
                           </div>
                         </div>
@@ -52,6 +57,7 @@
                             <label class="mx-2 form-label">description</label>
                             <div class="col-sm-12">
                               <textarea class="form-control" rows="5" v-model="form.description"></textarea>
+                             <small class="text-danger" v-if="errors.description" >{{ errors.description[0] }}</small>
                             </div>
                           </div>
                         </div>
@@ -94,7 +100,8 @@
                    description:null,
                    images:[]
                 },
-                categories:{}
+                categories:{},
+                errors:{}
             }
         },
         methods:{

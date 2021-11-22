@@ -12,6 +12,8 @@ use App\Http\Controllers\ProductController;
 Route::get('category', [CategoryController::class, 'index']);
 Route::post('save', [CategoryController::class, 'store']);
 //products
+Route::get('product', [ProductController::class, 'index']);
+Route::get('productindex', [ProductController::class, 'productindex']);
 Route::post('product-save', [ProductController::class, 'store']);
 //end of products
 

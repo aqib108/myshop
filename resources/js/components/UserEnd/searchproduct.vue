@@ -31,70 +31,21 @@
                   </div>
                </div>
                <div class="row clearfix">
-                  <div class="col-lg-3 col-sm-6 col-md-3">
+                  <div v-for="product in products" :key="product.id" class="col-lg-3 col-sm-6 col-md-3">
                      <a href="productpage.html">
                         <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/1.png" alt="" />
+                           <h4>{{ product.title }}</h4>
+                           <img src="" alt="sads" />
                         </div>
                      </a>
                   </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/2.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/4.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/5.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/10.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/11.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/12.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
-                  <div class="col-lg-3 col-sm-6 col-md-3">
-                     <a href="productpage.html">
-                        <div class="box-img">
-                           <h4>Product</h4>
-                           <img src="userasset/images/product/13.png" alt="" />
-                        </div>
-                     </a>
-                  </div>
+                  
+                  
+                  
+                
+                
+                  
+                 <br>
                   <div class="categories_link">
                      <a href="#">Browse all categories here</a>
                   </div>
@@ -106,8 +57,29 @@
 
 <script>
     export default {
+       data()
+       {
+          return{
+             products:{}
+          }
+       },
         mounted() {
-            console.log('Component mounted.')
+        this.getproducts()   
+              },
+        methods:{
+           getproducts()
+           {
+              axios.get("/api/productindex1").then(response=>
+          {
+      
+          this.products = response.data;
+          console.log(this.products);
+          }).
+          catch(error=>{
+          console.log(error);
+          });
+
+           }
         }
     }
 </script>

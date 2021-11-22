@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\ProductImages;
 use Image;
+use DB;
 class ProductController extends Controller
 {
     protected $model; 
@@ -16,16 +18,64 @@ class ProductController extends Controller
       $this->model = $model;
       $this->Imagemodel = $Imagemodel;
     }
+    function productindex()
+    {
+      $record = $this->model->with('Images')->get();
+      foreach($record as $rd)
+      {
+        $imagepath = null;
+        if(!empty($rd->images))
+        {
+           $imagepath = $rd->images[0]['file'];
+        }
+        $products[] = array(
+          'product_id'=>$rd->id,
+          'title'=>$rd->title,
+          'price'=>$rd->price,
+          'size'=>$rd->size,
+          'category'=>$this->categoryName($rd->category_id),
+          'image'=> $imagepath,
+
+        );
+      }
+     // dd($products);
+    // $Category = $this->model->orderBy('id','DESC')->get();
+      return response()->json($products);
+    }
     public function index()
     {
-      
-        $Category = $this->model->orderBy('id','DESC')->get();
-        return response()->json($Category);
-    }
+    
+        $record = $this->model->with('Images')->get();
+        foreach($record as $rd)
+        {
+          $products[] = array(
+            'product_id'=>$rd->id,
+            'title'=>$rd->title,
+            'price'=>$rd->price,
+            'size'=>$rd->size,
+            'category'=>$this->categoryName($rd->category_id),
+            'images'=>$rd->Images,
 
+          );
+        }
+       // dd($products);
+      // $Category = $this->model->orderBy('id','DESC')->get();
+        return response()->json($products);
+    }
+   function categoryName($id)
+   {
+     return Category::where('id',$id)->first()->name;
+   }
    
     public function store(Request $request)
     {
+      $validation = $request->validate([
+        'title'=>'required|unique:products',
+        'price'=>'required',
+        'category_id'=>'required',
+        'description'=>'required',
+      
+     ]);
         extract($request->all());
        
                unset($request->images);
@@ -33,6 +83,7 @@ class ProductController extends Controller
                $data['category_id'] = $category_id;
                $data['size'] = $size;
                $data['price'] = $price;
+               $data['description'] = $description;
                $result = $this->model->insertGetId($data);
              // dd($result);
                //  dd($array);
@@ -53,24 +104,24 @@ class ProductController extends Controller
                 $image_url = $path.$name;
                 $img->save($image_url);
                 $array[] = array(
-                    'product_id'=>1,
+                    'product_id'=>$result,
                     'file'=>$image_url
                 );
              }     
                }
-               $this->
+              $this->Imagemodel->insert($array);
              //  dd( $array);
               
            //end of upload image
-           $data['status'] = 200;
-           $data['message'] = 'Successfully Saved';
+           $data1['status'] = 200;
+           $data1['message'] = 'Successfully Saved';
        }
        else
        {
-        $data['status'] = 401;
-        $data['message'] = 'Something Went to Wrong';
+        $data1['status'] = 401;
+        $data1['message'] = 'Something Went to Wrong';
        }
-       return response()->json($data);
+       return response()->json($data1);
     }
 
    
